@@ -65,7 +65,7 @@ function Navbar(props) {
           Resume Templates
         </NavLink>
         <NavLink to="/my/resumes" className="nav-link" color="inherit">
-          My Resumes
+          My Resumesss
         </NavLink>
         <NavLink to="/about-us" color="inherit" className="nav-link">
           About us
