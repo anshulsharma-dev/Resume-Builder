@@ -1,4 +1,6 @@
-import * as React from "react";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -6,25 +8,21 @@ import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
-// import ListItem from "@mui/material/ListItem";
-// import ListItemButton from "@mui/material/ListItemButton";
-// import ListItemText from "@mui/material/ListItemText";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { NavLink } from "react-router-dom";
 
-const drawerWidth = 240;
-const  logoTheme = createTheme({
-  palette: {
-    primary: {
-      main: "#fff",
-    },
-  },
-});
+const navItems = [
+  { id: 1, path: "/", label: "Home" },
+  { id: 2, path: "/my-resumes", label: "My Resumes" },
+  { id: 3, path: "/about-us", label: "About Us" },
+];
 
-function Navbar(props) {
+function NavBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -35,41 +33,21 @@ function Navbar(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        <NavLink to="/">
-          {" "}
-          <img
-            src="https://www.almabetter.com/_next/image?url=https%3A%2F%2Falmablog-media.s3.ap-south-1.amazonaws.com%2Flogo1_edfc81b31b.png&w=256&q=75"
-            height="30px"
-            alt="Alma Better"
-          />
-        </NavLink>
-        <NavLink to= "/MyResumes">
-        My Resumes
-    
-        </NavLink>
-        <NavLink to= "/AboutUs">
-        About Us
-    
-        </NavLink>
+        RB
       </Typography>
       <Divider />
-      <List
-        className="drawerLinks"
-        sx={{
-          display: "flex",
-          textAlign: "left",
-          paddingLeft: "20px",
-          flexDirection: "column",
-        }}>
-        <NavLink className="nav-link" to="/" color="inherit">
-          Resume Templates
-        </NavLink>
-        <NavLink to="/my/resumes" className="nav-link" color="inherit">
-          My Resumesss
-        </NavLink>
-        <NavLink to="/about-us" color="inherit" className="nav-link">
-          About us
-        </NavLink>
+      <List>
+        {navItems.map(({ id, path, label }) => (
+          <ListItem key={id} disablePadding>
+            <ListItemButton
+              component={NavLink}
+              to={path}
+              sx={{ textAlign: "center" }}
+            >
+              <ListItemText primary={label} />
+            </ListItemButton>
+          </ListItem>
+        ))}
       </List>
     </Box>
   );
@@ -96,18 +74,17 @@ function Navbar(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            <NavLink>
-              <img
-                src="https://www.almabetter.com/_next/image?url=https%3A%2F%2Falmablog-media.s3.ap-south-1.amazonaws.com%2Flogo1_edfc81b31b.png&w=256&q=75"
-                height="35px"
-                alt="Alma Bette logo"
-              />
-            </NavLink>
+            RB
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map((item) => (
-              <Button key={item} sx={{ color: "#fff" }}>
-                {item}
+            {navItems.map(({ id, path, label }) => (
+              <Button
+                key={id}
+                component={NavLink}
+                to={path}
+                sx={{ color: "#fff" }}
+              >
+                {label}
               </Button>
             ))}
           </Box>
@@ -120,25 +97,26 @@ function Navbar(props) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
-              width: drawerWidth,
+              width: 240,
             },
           }}
         >
           {drawer}
         </Drawer>
       </nav>
-      <Box component="main" sx={{ p: 3 }}>
-        <Toolbar />
-        <Typography></Typography>
-      </Box>
+      <Box component="main" sx={{ p: 3 }}></Box>
     </Box>
   );
 }
 
-export default Navbar;
+NavBar.propTypes = {
+  window: PropTypes.func,
+};
+
+export default NavBar;
